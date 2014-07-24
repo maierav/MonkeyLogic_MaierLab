@@ -1,0 +1,5 @@
+Condition	Frequency	Block	Timing File	TaskObject#1		TaskObject#2		TaskObject#3
+1		1		1	repflashattend	pic(fix,0,0)		pic(fixtarget,0,0)	pic(fixtargetcue,0,0)
+2		1		1	repflashattend	pic(fix,0,0)		pic(fixtarget,0,0)	pic(fixtarget,0,0)
+3		1		1	repflashattend	pic(fix,0,0)		pic(fix,0,0)		pic(fixcue,0,0)		
+		
