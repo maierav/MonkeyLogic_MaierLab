@@ -2,6 +2,7 @@
 ###############
 *.bhv
 *_cfg.mat
+runtime/
 
 
 # MATLAB #
