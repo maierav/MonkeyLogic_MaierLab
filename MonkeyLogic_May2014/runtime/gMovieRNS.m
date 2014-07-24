@@ -1,6 +1,6 @@
 % X x Y x 4 x N object to function as a Movie (equivalent to "Mov") with N frames.
 
-function [rns x y] = gMovingBars(TrialRecord)
+function [rns x y] = gMovieRNS(TrialRecord)
 
 pixperdeg = TrialRecord.ScreenInfo.PixelsPerDegree;
 xdegrees = TrialRecord.ScreenInfo.Xdegrees/2;
@@ -16,7 +16,10 @@ for i=1:4
     rns(:,:,i,:) = channel;
 end
 
-x = floor(xdegrees/2);
-y = floor(ydegrees/2);
+x = floor(xdegrees/2 -2);
+y = floor(ydegrees/2 - 2);
 
+
+TrialRecord.MovieStartFrame = 1;
+TrialRecord.MovieStep = 0.5;
 
