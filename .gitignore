@@ -3,6 +3,7 @@
 *.bhv
 *_cfg.mat
 runtime/
+*.rns
 
 # MATLAB #
 ##########
