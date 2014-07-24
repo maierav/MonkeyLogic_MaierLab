@@ -4,7 +4,6 @@
 *_cfg.mat
 runtime/
 
-
 # MATLAB #
 ##########
 .*~
@@ -12,16 +11,6 @@ runtime/
 *.*kate-swp
 *.asv
 *.mat
-
-
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
  
 # Packages #
 ############

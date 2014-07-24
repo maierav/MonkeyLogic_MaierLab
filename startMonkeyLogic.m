@@ -36,8 +36,8 @@ ML_folder = pwd;
 addpath(genpath(sprintf('%s\\MonkeyLogic_%s',ML_folder,ML_ver)));
 
 % force monkeylogic to reset runtime, task, and home directories
-if ispref('monkeylogic')
-    rmpref('monkeylogic');
+if ispref('MonkeyLogic')
+    rmpref('MonkeyLogic');
     set_ml_directories(ML_folder);
 end
 
@@ -62,7 +62,7 @@ end
 basedir = [pname filesep];
 runtimedir = [basedir 'runtime' filesep];
 
-if nargin < 1 ||  exist(expdir,'dir') ~= 7;
+if nargin < 1
     pname = uigetdir(basedir, 'Please select the experiment directory...');
     if pname(1) == 0,
         return
@@ -70,6 +70,13 @@ if nargin < 1 ||  exist(expdir,'dir') ~= 7;
     expdir = [pname filesep];
 else
     expdir = varargin{1};
+    if exist(expdir,'dir') ~= 7;
+        pname = uigetdir(basedir, 'Please select the experiment directory...');
+        if pname(1) == 0,
+            return
+        end
+        expdir = [pname filesep];
+    end
 end
 
 MLPrefs.Directories.BaseDirectory = basedir;
