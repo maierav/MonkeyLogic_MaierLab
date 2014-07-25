@@ -1,0 +1,6 @@
+Condition	Frequency	Block	Timing File	TaskObject#1			TaskObject#2			TaskObject#3
+1		1		1	trainfixation2	crc(0.4,[1 0 0], 0,  0,  0)	crc(0.4,[1 0 0], 1,  0,  0)	sqr(25,[1 0 0], 1,  0,  0)
+2		1		1	trainfixation2	crc(0.4,[0 1 0], 0,  0,  0)	crc(0.4,[0 1 0], 1,  0,  0)	sqr(25,[0 1 0], 1,  0,  0)
+3		1		1	trainfixation2	crc(0.4,[1 0 1], 0,  0,  0)	crc(0.4,[1 0 1], 1,  0,  0)	sqr(25,[1 0 1], 1,  0,  0)
+4		1		1	trainfixation2	crc(0.4,[1 1 1], 0,  0,  0)	crc(0.4,[1 1 1], 1,  0,  0)	sqr(25,[1 1 1], 1,  0,  0)
+5		1		1	trainfixation2	crc(0.4,[1 1 0], 0,  0,  0)	crc(0.4,[1 1 0], 1,  0,  0)	sqr(25,[1 1 0], 1,  0,  0)
