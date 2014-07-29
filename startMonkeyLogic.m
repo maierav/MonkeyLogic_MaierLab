@@ -31,21 +31,37 @@ end
 
 % get current directory which should contain ML versions and Tasks
 ML_folder = pwd;
+Tasks_folder = [ML_folder, filesep, 'TASKS', filesep];
+Utils_folder = [ML_folder, filesep, 'UTILS', filesep];
 
-% put monkeylogi on path
+% put monkeylogic on path
 addpath(genpath(sprintf('%s\\MonkeyLogic_%s',ML_folder,ML_ver)));
-
-% force monkeylogic to reset runtime, task, and home directories
-if ispref('MonkeyLogic')
-    rmpref('MonkeyLogic');
-    set_ml_directories(ML_folder);
+% add UTILS folder to path if it exists
+if exist(Utils_folder,'dir') == 7
+    addpath(Utils_folder);
 end
 
 
+% force monkeylogic to reset runtime, task, and home directories
+if ispref('MonkeyLogic')
+    p = getpref('MonkeyLogic');
+    LastTaskDir =  p.Directories.ExperimentDirectory;
+    rmpref('MonkeyLogic');
+    if exist(Tasks_folder,'dir') == 7
+        success = set_ml_directories(Tasks_folder);
+    else
+        success = set_ml_directories(LastTaskDir);
+    end
+    if ~success
+        error('MonkeyLogic prefrences not set as supplied')
+    end
+end
+
+% the main event!
 monkeylogic
 
 
-function success = set_ml_directories(varargin)
+function success = set_ml_directories(expdir)
 
 success = 0;
 d = which('monkeylogic');
@@ -62,21 +78,13 @@ end
 basedir = [pname filesep];
 runtimedir = [basedir 'runtime' filesep];
 
-if nargin < 1
+% check that supplied experiment directory exists
+if exist(expdir,'dir') ~= 7;
     pname = uigetdir(basedir, 'Please select the experiment directory...');
     if pname(1) == 0,
         return
     end
     expdir = [pname filesep];
-else
-    expdir = varargin{1};
-    if exist(expdir,'dir') ~= 7;
-        pname = uigetdir(basedir, 'Please select the experiment directory...');
-        if pname(1) == 0,
-            return
-        end
-        expdir = [pname filesep];
-    end
 end
 
 MLPrefs.Directories.BaseDirectory = basedir;
