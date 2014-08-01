@@ -10,8 +10,11 @@
 % instance, displaying or extinguishing an object, initiating a movement, etc).
 
 % set editable vars
-%editable({'fix_radius','fix_on_idle','wait_for_fix','wait_for_sac','fix_dur_LL','fix_dur_UL','n_juice','reward_schedule','iti_dur_LL','iti_dur_UL','punish_dur'});
-editable({'fix_radius','reward_schedule'});
+editable({'fix_radius','fix_on_idle','wait_for_fix','wait_for_sac','fix_dur_LL','fix_dur_UL','pumps','reward_schedule','iti_dur_LL','iti_dur_UL','punish_dur'});
+
+% set number of juice pumps
+pumps = 1;
+reward_schedule = 0; 
 
 % give names to the TaskObjects defined in the conditions file:
 acquirefix_point = 1;
@@ -29,18 +32,13 @@ fix_on_idle = 10;
 wait_for_fix = 1000;
 wait_for_sac = 500;
 punish_dur = 2000;
-iti_dur = 1000; 
 % random intervals:
 fix_dur_LL = 400;
 fix_dur_UL = 600;
+iti_dur_LL = 1000;
+iti_dur_UL = 1200;
 fix_dur = randi([fix_dur_LL fix_dur_UL]);
-iti_dur_LL = 900;
-iti_dur_UL = 1100;
 iti_dur = randi([iti_dur_LL iti_dur_UL]);
-
-% set number of juice pumps
-n_juice = 1;
-reward_schedule = 0; 
 
 % set ITI, "The desired duration can be reset to the value from the main menu by calling set_iti with duration == -1"
 set_iti(iti_dur);
@@ -95,5 +93,8 @@ end
 
 % correct trial reward
 trialerror(0); % correct
-n_juice = uRewardSchedule(reward_schedule,n_juice,TrialRecord);
-goodmonkey(50, 'NumReward', n_juice, 'PauseTime', 100);
+n_pumps = uRewardSchedule(reward_schedule,pumps,TrialRecord);
+goodmonkey(50, 'NumReward', n_pumps, 'PauseTime', 100);
+
+%turn off fixation at second location
+toggleobject(holdsac_point,'status','off');
