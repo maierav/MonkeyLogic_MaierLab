@@ -4,7 +4,7 @@ function [rns x y moreinfo] = gMovieRNS(TrialRecord)
 % July 2014
 % MAC
 
-framen = 10;
+framen = 20;
 moviestep = 0.5;
 moviewraps = 1;
 
