@@ -18,12 +18,22 @@ ydegrees  = 6;
 xpix = floor(xdegrees * pixperdeg);
 ypix = floor(ydegrees * pixperdeg);
 
-rns = zeros(xpix,ypix,framen,10);
-channel = rns(:,:,1,:);
-color = randi([1  numel(channel)],[1 numel(channel)/2]);
-channel(color) = 1;
-for i=1:4
-    rns(:,:,i,:) = channel;
+%rns = zeros(xpix,ypix,4,framen);
+%channel = rns(:,:,1,:);
+%color = randi([1  numel(channel)],[1 numel(channel)/2]);
+%channel(color) = 1;
+%for i=1:4
+%    rns(:,:,i,:) = channel;
+%end
+
+rns = zeros(xpix,ypix,4,framen);
+for f = 1:framen
+    frame = normrnd(.5,.25,[xpix ypix]);
+    frame(frame > 1) = 1;
+    frame(frame < 0) = 0;
+    for rgb=1:3
+        rns(:,:,rgb,f) = frame;
+    end
 end
 
 x = 2.5;
