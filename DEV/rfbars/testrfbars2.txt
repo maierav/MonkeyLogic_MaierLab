@@ -1,0 +1,9 @@
+Condition	Frequency	Block	Timing File	TaskObject#1
+1		1		1 	sweepbargen	gen(gMovingBars)
+2		1		1 	sweepbargen	gen(gMovingBars)
+3		1		1 	sweepbargen	gen(gMovingBars)
+4		1		1 	sweepbargen	gen(gMovingBars)
+5		1		1 	sweepbargen	gen(gMovingBars)
+6		1		1 	sweepbargen	gen(gMovingBars)
+7		1		1 	sweepbargen	gen(gMovingBars)
+8		1		1 	sweepbargen	gen(gMovingBars)

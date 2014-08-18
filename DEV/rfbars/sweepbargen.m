@@ -17,20 +17,20 @@ bar  = 1;
 % define time intervals (in ms):
 mov_duration = 1000;
 
-TrialRecord.ScreenInfo
 
 refreshrate = TrialRecord.ScreenInfo.RefreshRate;
-xdegrees    = floor(TrialRecord.ScreenInfo.Ydegrees/2);
-ydegrees    = floor(TrialRecord.ScreenInfo.Ydegrees/2);
-target = min([xdegrees ydegrees]) - 2;
+moreinfo = TrialRecord.CurrentConditionStimulusInfo{bar}.MoreInfo;
 
-xpath = 0:target/refreshrate:target;
-ypath = zeros(size(xpath));
-set_object_path(bar, xpath, ypath);
+save('C:\Users\MLab\Documents\gitMonkeyLogic\DEV\tr.mat','TrialRecord');
+
+xpath = moreinfo(1,:)
+ypath = moreinfo(2,:)
+success = set_object_path(bar, xpath, ypath)
 
 toggleobject(bar);
 idle(mov_duration);
 toggleobject(bar); 
+
 
 
 
