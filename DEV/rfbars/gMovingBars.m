@@ -18,8 +18,8 @@ function [image x y moreinfo] = gMovingBars(TrialRecord)
 pixperdeg = TrialRecord.ScreenInfo.PixelsPerDegree;
 refreshrate = TrialRecord.ScreenInfo.RefreshRate;
 bg = TrialRecord.ScreenInfo.BackgroundColor;
-xdegrees    = floor(TrialRecord.ScreenInfo.Ydegrees/2);
-ydegrees    = floor(TrialRecord.ScreenInfo.Ydegrees/2);
+xdegrees    = TrialRecord.ScreenInfo.Xdegrees/2 - 0.5;
+ydegrees    = TrialRecord.ScreenInfo.Ydegrees/2 - 0.5;
 
 % set bar params
 orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case for all included oris
@@ -36,8 +36,14 @@ width = 0.2; %dva
 
 switch ori
     case 0 % horzontal;
-        height = 5;
-        startpos  = [0    5]; %dva
+        height = xdegrees*2;
+        startpos  = [0    ydegrees-width]; %dva
+        targetpos = startpos * -1; %dva
+        scaler = [1 1];
+        
+    case 90 % horzontal;
+        height = ydegrees*2;
+        startpos  = [xdegrees-width   0]; %dva
         targetpos = startpos * -1; %dva
         scaler = [1 1];
         
