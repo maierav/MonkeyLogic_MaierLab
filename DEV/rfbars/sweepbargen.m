@@ -15,7 +15,7 @@
 bar  = 1;
 
 % define time intervals (in ms):
-mov_duration = 1000;
+
 
 
 refreshrate = TrialRecord.ScreenInfo.RefreshRate;
@@ -26,6 +26,8 @@ save('C:\Users\MLab\Documents\gitMonkeyLogic\DEV\tr.mat','TrialRecord');
 xpath = moreinfo(1,:)
 ypath = moreinfo(2,:)
 success = set_object_path(bar, xpath, ypath)
+mov_duration = length(xpath) / refreshrate * 1000
+
 
 toggleobject(bar);
 idle(mov_duration);

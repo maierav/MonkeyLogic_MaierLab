@@ -12,39 +12,40 @@
 % and crossed the screen in one of the directions perpendicular to its orientation
 % at a velocity of 10°/s (3 s/trial).
 
-function [image x y moreinfo] = gMovingBars(TrialRecord)
+function [image x y moreinfo frames startpos targetpos] = gRFbars(TrialRecord)
 
 % gather screen info
-pixperdeg = TrialRecord.ScreenInfo.PixelsPerDegree;
+pixperdeg   = TrialRecord.ScreenInfo.PixelsPerDegree;
 refreshrate = TrialRecord.ScreenInfo.RefreshRate;
-bg = TrialRecord.ScreenInfo.BackgroundColor;
+bg          = TrialRecord.ScreenInfo.BackgroundColor;
 xdegrees    = TrialRecord.ScreenInfo.Xdegrees/2 - 0.5;
 ydegrees    = TrialRecord.ScreenInfo.Ydegrees/2 - 0.5;
 
 % set bar params
 orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case for all included oris
-directions   = [1 -1  1 -1  1 -1   1  -1]; % only 1 or -1
-barcolors    = [1  1  1  1  1  1   1   1]; % only 1 for white or 0 for black
-% orientations = [135  135 135 135 45 45 45 45]; % zero is vertical, must have a case for all included oris
-% directions   = [1 -1  1 -1  1 -1   1  -1]; % only 1 or -1
-% barcolors    = [1  1  1  1  1  1   1   1]; % only 1 for white or 0 for black
+directions   = [1 -1  1 -1  1 -1   1  -1]; % 1 or -1 for forward and reverse
+barcolors    = [1  1  1  1  1  1   1   1]; % 1 for white or 0 for black
 
 ori = orientations(TrialRecord.CurrentCondition);
 dir = directions(TrialRecord.CurrentCondition);
 col = barcolors(TrialRecord.CurrentCondition);
-width = 0.2; %dva
+
+velocity = 10; %dva/sec
+width = 0.2; %dva, height set below
 
 switch ori
+    % start position should be the smaller cord (negative typically)
+    
     case 0 % horzontal;
         height = xdegrees*2;
-        startpos  = [0    ydegrees-width]; %dva
-        targetpos = startpos * -1; %dva
+        startpos  = [0    -1*(ydegrees-width)]; %dva
+        targetpos = [0       (ydegrees-width)]; %dva
         scaler = [1 1];
         
     case 90 % horzontal;
         height = ydegrees*2;
-        startpos  = [xdegrees-width   0]; %dva
-        targetpos = startpos * -1; %dva
+        startpos  = [-1*xdegrees-width   0]; %dva
+        targetpos = [   xdegrees-width   0]; %dva
         scaler = [1 1];
         
     case 45
@@ -60,17 +61,9 @@ switch ori
         startpos  = [a    a] ;
         targetpos = startpos * -1;
         scaler = [1 1];
-        
-    otherwise
-        startpos  = [0 0];
-        targetpos = [5 5];
-        height = 5;
-         scaler = [1 1];
-        %     case 90
-        %     case 45
-        %     case 135
 end
-
+startpos = floor(startpos);
+targetpos = floor(targetpos);
 
 % make image matrix for bar
 width = round(width * pixperdeg); % now in pix
@@ -100,8 +93,12 @@ end
 
 % calculate movement trajectory
 % all values in dva, these are for a dir = 1
-xpath = [startpos(1) : (targetpos(1) - startpos(1)) / refreshrate :targetpos(1)] .* scaler(1);
-ypath = [startpos(2) : (targetpos(2) - startpos(2)) / refreshrate :targetpos(2)] .* scaler(2);
+D = pdist([startpos;targetpos]);
+t = D/velocity; % t is a function of frames and refresh rate
+frames = t*refreshrate; % number of frames to travel D distance at the given Velocity
+
+xpath = [startpos(1) : D / frames :targetpos(1)] .* scaler(1);
+ypath = [startpos(2) : D / frames :targetpos(2)] .* scaler(2);
 
 if startpos(1) == targetpos(1)
     xpath = zeros(size(ypath));
