@@ -22,9 +22,14 @@ xdegrees    = TrialRecord.ScreenInfo.Xdegrees/2 - 0.5;
 ydegrees    = TrialRecord.ScreenInfo.Ydegrees/2 - 0.5;
 
 % set bar params
-orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case for all included oris
-directions   = [1 -1  1 -1  1 -1   1  -1]; % 1 or -1 for forward and reverse
-barcolors    = [1  1  1  1  1  1   1   1]; % 1 for white or 0 for black
+% orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case for all included oris
+% directions   = [1 -1  1 -1  1 -1   1  -1]; % 1 or -1 for forward and reverse
+% barcolors    = [1  1  1  1  1  1   1   1]; % 1 for white or 0 for black
+
+orientations = [0 90 45 135]; % zero is vertical, must have a case for all included oris
+directions   = [1 1 1 1]; % 1 or -1 for forward and reverse
+barcolors    = [1  1  1  1]; % 1 for white or 0 for black
+
 
 ori = orientations(TrialRecord.CurrentCondition);
 dir = directions(TrialRecord.CurrentCondition);
@@ -44,26 +49,27 @@ switch ori
         
     case 90 % horzontal;
         height = ydegrees*2;
-        startpos  = [-1*xdegrees-width   0]; %dva
-        targetpos = [   xdegrees-width   0]; %dva
+        startpos  = [-1*(xdegrees-width)   0]; %dva
+        targetpos = [   (xdegrees-width)   0]; %dva
         scaler = [1 1];
         
     case 45
-        height = min([xdegrees ydegrees])-2;
-        a = ceil(height / sqrt(2));
-        startpos  = [a    a];
-        targetpos = startpos * -1;
+        height = min([xdegrees ydegrees]);
+        a = height / sqrt(2);
+        startpos  = -1*[a    a];
+        targetpos =    [a    a];
         scaler = [-1 1];
         
     case 135
-        height = min([xdegrees ydegrees])-2;
-        a = ceil(height / sqrt(2));
-        startpos  = [a    a] ;
-        targetpos = startpos * -1;
+        height = min([xdegrees ydegrees]);
+        a = height / sqrt(2);
+        startpos  = -1*[a    a];
+        targetpos =    [a    a];
         scaler = [1 1];
 end
-startpos = floor(startpos);
-targetpos = floor(targetpos);
+startpos  = fix(startpos);
+targetpos = fix(targetpos);
+height    = floor(height);
 
 % make image matrix for bar
 width = round(width * pixperdeg); % now in pix

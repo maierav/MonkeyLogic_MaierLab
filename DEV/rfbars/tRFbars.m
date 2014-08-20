@@ -26,7 +26,9 @@ xpath = moreinfo(1,:);
 ypath = moreinfo(2,:);
 bar_duration = length(xpath) / refreshrate * 1000; % bar play time is a function of # of frames, see gMovingBars
 sucess = set_object_path(moving_bar, xpath, ypath);
-user_text(sprtinf('sucess = %u',sucess))
+user_text(sprintf('set_object_path sucess = %u',sucess))
+user_text(sprintf('[%f %f] to [%f %f]',xpath(1),ypath(1),xpath(end),ypath(end)))
+user_text(sprintf('play = %f',bar_duration));
 
 save('C:\Users\MLab\Documents\gitMonkeyLogic\DEV\tr.mat','TrialRecord');
 
@@ -67,8 +69,17 @@ end
 
 % hold fixation and play bar
 toggleobject(moving_bar,'EventMarker',23); % TaskObject ON
-idle(bar_duration);
+ontarget = eyejoytrack('holdfix', fixation_point, fix_radius, bar_duration);
+%idle(bar_duration);
 toggleobject(moving_bar,'EventMarker',24); % TaskObject OFF
+if ~ontarget,
+    eventmarker(97);% broke fixation
+    trialerror(3); % broke fixation
+    toggleobject(fixation_point,'EventMarker',36); % Fix point off   
+    idle(punish_duration); user_text('punishment delay'); % punishment delay
+    return
+end
+
 
 % ontarget = eyejoytrack('holdfix', fixation_point, fix_radius, bar_duration);
 % % if ~ontarget,
