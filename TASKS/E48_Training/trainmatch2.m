@@ -22,6 +22,7 @@ holdfix_point = 2;
 acquiresac_point = 3;
 holdsac_point = 4;
 punish_image = 5; 
+distractor_point = 6;
 
 % fixation window (in degrees):
 fix_radius = 5;
@@ -69,24 +70,30 @@ if ~ontarget,
 end
 
 % turn off dot at first location, and on at second location
-toggleobject([holdfix_point acquiresac_point]);
+toggleobject([holdfix_point acquiresac_point distractor_point]);
 idle(fix_on_idle); % small idle before aquirefix initiates to emphasize fix point diffrences, also give monkey time for EM 
-ontarget = eyejoytrack('acquirefix', acquiresac_point, fix_radius, wait_for_sac);
+ontarget = eyejoytrack('acquirefix', [acquiresac_point distractor_point], fix_radius, wait_for_sac);
 if ~ontarget,
     trialerror(4); % no fixation
-    toggleobject(acquiresac_point);
+    toggleobject([ punish_image acquiresac_point distractor_point ]);
     idle(punish_dur);  user_text('punishment delay'); % punishment delay
+    toggleobject(punish_image);
+    return
+elseif ontarget == 2,
+    trialerror(6); % chose the wrong (second) object among the options [target distractor]
+    toggleobject([punish_image acquiresac_point distractor_point]);
+    idle(punish_dur);  user_text('punishment delay'); % punishment delay
+    toggleobject(punish_image);
     return
 end
-
 
 % hold fixation at second location
 idle(25); % short idle before holdfix initiates
 toggleobject([acquiresac_point holdsac_point]);
 ontarget = eyejoytrack('holdfix', holdsac_point, fix_radius, fix_dur);
 if ~ontarget,
-    trialerror(3); % broke fixation
-    toggleobject([punish_image holdsac_point]); user_text('punish screen');    
+    trialerror(5); % broke fixation
+    toggleobject([punish_image holdsac_point distractor_point]); user_text('punish screen');    
     idle(punish_dur); user_text('punishment delay'); % punishment delay
     toggleobject(punish_image);
     return
@@ -99,4 +106,4 @@ n_pumps = uRewardSchedule(reward_schedule,pumps,TrialRecord);
 goodmonkey(50, 'NumReward', n_pumps, 'PauseTime', 100);
 
 %turn off fixation at second location
-toggleobject(holdsac_point,'status','off');
+toggleobject([holdsac_point distractor_point],'status','off');

@@ -1,6 +1,7 @@
 %trainfixation (timing script)
 % modified from DMS ~MAC, Nov/Dec 2012
 % continued development March/April 2013, June 2013
+% modified to be a color matching task Aug 2014
 
 % This task requires that either an "eye" input or joystick (attached to the
 % eye input channels) is available to perform the necessary responses.
@@ -10,7 +11,7 @@
 % instance, displaying or extinguishing an object, initiating a movement, etc).
 
 % set editable vars
-editable({'fix_radius','fix_on_idle','wait_for_fix','wait_for_sac','fix_dur_LL','fix_dur_UL','pumps','reward_schedule','iti_dur_LL','iti_dur_UL','punish_dur'});
+editable({'fix_radius','holdfix_idle','wait_for_fix','max_reaction_time','saccade_time','fix_dur_LL','fix_dur_UL','pumps','reward_schedule','iti_dur_LL','iti_dur_UL','punish_dur'});
 
 % set number of juice pumps
 pumps = 1;
@@ -19,8 +20,8 @@ reward_schedule = 0;
 % give names to the TaskObjects defined in the conditions file:
 acquirefix_point = 1;
 holdfix_point = 2;
-acquiresac_point = 3;
-holdsac_point = 4;
+target_obj = 3;
+distractor_obj = 4;
 punish_image = 5; 
 
 % fixation window (in degrees):
@@ -28,9 +29,10 @@ fix_radius = 5;
 
 % define time intervals (in ms):
 % fixed intervals:
-fix_on_idle = 0;
+holdfix_idle = 50;
 wait_for_fix = 1000;
-wait_for_sac = 500;
+max_reaction_time = 500;
+saccade_time = 80;
 punish_dur = 2000;
 % random intervals:
 fix_dur_LL = 400;
@@ -47,7 +49,6 @@ set_iti(iti_dur);
 
 % fixation to first location:
 toggleobject(acquirefix_point);
-idle(fix_on_idle); % small idle before aquirefix initiates to emphasize fix point diffrences, also give monkey time for EM 
 ontarget = eyejoytrack('acquirefix', acquirefix_point, fix_radius, wait_for_fix);
 if ~ontarget,
     trialerror(4); % no fixation
@@ -57,7 +58,7 @@ if ~ontarget,
 end
 
 % hold fixation at first location
-idle(25); % short idle before holdfix initiates
+idle(holdfix_idle); % short idle before holdfix initiates
 toggleobject([acquirefix_point holdfix_point]);
 ontarget = eyejoytrack('holdfix', holdfix_point, fix_radius, fix_dur);
 if ~ontarget,
@@ -68,35 +69,47 @@ if ~ontarget,
     return
 end
 
-% turn off dot at first location, and on at second location
-toggleobject([holdfix_point acquiresac_point]);
-idle(fix_on_idle); % small idle before aquirefix initiates to emphasize fix point diffrences, also give monkey time for EM 
-ontarget = eyejoytrack('acquirefix', acquiresac_point, fix_radius, wait_for_sac);
-if ~ontarget,
-    trialerror(4); % no fixation
-    toggleobject(acquiresac_point);
-    idle(punish_dur);  user_text('punishment delay'); % punishment delay
+% choice presentation and response
+toggleobject([holdfix_point target_obj distractor_obj]);  % simultaneously turns off fix point and displays target & distractor
+[ontarget rt] = eyejoytrack('holdfix', holdfix_point, fix_radius, max_reaction_time);
+if ontarget, % wait_for_sac has elapsed and is still on fix spot
+    trialerror(1); % no response
+    toggleobject([target_obj distractor_obj punish_image]); user_text('punish screen');    
+    idle(punish_dur); user_text('punishment delay'); % punishment delay
+    toggleobject(punish_image);
     return
 end
-
-
-% hold fixation at second location
-idle(25); % short idle before holdfix initiates
-toggleobject([acquiresac_point holdsac_point]);
-ontarget = eyejoytrack('holdfix', holdsac_point, fix_radius, fix_dur);
+ontarget = eyejoytrack('acquirefix', [target_obj distractor_obj], fix_radius, saccade_time);
 if ~ontarget,
-    trialerror(3); % broke fixation
-    toggleobject([punish_image holdsac_point]); user_text('punish screen');    
+    trialerror(2); % no or late response (did not land on either the target or distractor)
+    toggleobject([target_obj distractor_obj punish_image]); user_text('punish screen');    
+    idle(punish_dur); user_text('punishment delay'); % punishment delay
+    toggleobject(punish_image);
+    return
+elseif ontarget == 2,
+    trialerror(6); % chose the wrong (second) object among the options [target distractor]
+    toggleobject([target_obj distractor_obj punish_image]); user_text('punish screen');
     idle(punish_dur); user_text('punishment delay'); % punishment delay
     toggleobject(punish_image);
     return
 end
 
+% hold fixation at target
+ontarget = eyejoytrack('holdfix', target_obj, fix_radius, fix_dur);
+if ~ontarget,
+    trialerror(5); % broke fixation
+    toggleobject([target_obj distractor_obj punish_image]); user_text('punish screen');    
+    idle(punish_dur); user_text('punishment delay'); % punishment delay
+    toggleobject(punish_image);
+    return
+end
 
 % correct trial reward
 trialerror(0); % correct
 n_pumps = uRewardSchedule(reward_schedule,pumps,TrialRecord);
 goodmonkey(50, 'NumReward', n_pumps, 'PauseTime', 100);
 
-%turn off fixation at second location
-toggleobject(holdsac_point,'status','off');
+
+%turn off target and distrctor
+toggleobject([target_obj distractor_obj])
+

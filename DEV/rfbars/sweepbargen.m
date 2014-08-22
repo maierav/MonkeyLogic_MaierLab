@@ -43,7 +43,7 @@ ypath = moreinfo(2,:);
 bar_duration = length(xpath) / refreshrate * 1000; % bar play time is a function of # of frames, see gMovingBars
 
 %toggleobject(fixation_point,'EventMarker',35);
-idle(500);
+% idle(500);
 
 sucess = set_object_path(moving_bar, xpath, ypath);
 user_text(sprintf('set_object_path sucess = %u',sucess))
