@@ -4,19 +4,22 @@ function [rns x y moreinfo] = gMovieRNS(TrialRecord)
 % July 2014
 % MAC
 
-framen = 20;
-moviestep = 0.5;
+framen = 60;
+moviestep = 1;
 moviewraps = 1;
 
 frameln   = TrialRecord.ScreenInfo.FrameLength; % ms/frame, actually measured by ML
 movie_play_dur  = frameln/moviestep * framen * moviewraps;  %msperframe * numberofframes * numberofrepeats  
 
 pixperdeg = TrialRecord.ScreenInfo.PixelsPerDegree;
-xdegrees  = 6;
-ydegrees  = 6;
+xdegrees  = [-1:4]; %range of RNS in the horzontal demension
+ydegrees  = [-4:1]; %range of RNS in the vertical demenstion
 
-xpix = floor(xdegrees * pixperdeg);
-ypix = floor(ydegrees * pixperdeg);
+x = mean(xdegrees);  % where to center the image
+y = mean(ydegrees);
+
+xpix = floor(range(xdegrees) * pixperdeg);
+ypix = floor(range(ydegrees) * pixperdeg);
 
 %rns = zeros(xpix,ypix,4,framen);
 %channel = rns(:,:,1,:);
@@ -27,7 +30,7 @@ ypix = floor(ydegrees * pixperdeg);
 %end
 
 rns = zeros(xpix,ypix,4,framen);
-for f = 1:framen
+for f = 1:framen    
     frame = normrnd(.5,.25,[xpix ypix]);
     frame(frame > 1) = 1;
     frame(frame < 0) = 0;
@@ -36,8 +39,6 @@ for f = 1:framen
     end
 end
 
-x = 2.5;
-y = -2.5;
 
 % save each trials RNS
 [fpath fname] = fileparts(TrialRecord.BhvFileName);
@@ -45,24 +46,24 @@ newdir = [fpath filesep 'rns'];
 if exist(newdir,'dir') ~= 7
     mkdir(newdir)
 end
-filename = fullfile(newdir,sprintf('%s-tr%03d.rns',fname,TrialRecord.CurrentTrialNumber));
+filename = fullfile(newdir,sprintf('%s-tr%03d.mrns',fname,TrialRecord.CurrentTrialNumber));
 fid = fopen(filename, 'w');
 fwrite(fid,rns,'uint8');
 fclose(fid);
 % save rns info
 if TrialRecord.CurrentTrialNumber == 1
-    rnsinfo.size = size(rns); % pixels
-    rnsinfo.x_pos    = x; % dva
-    rnsinfo.y_pos    = y; % dva
-    rnsinfo.x_ln     = xdegrees; % dva
-    rnsinfo.y_ln     = ydegrees; % dva
-    rnsinfo.n   = framen;
-    rnsinfo.moviestep     = moviestep;
-    rnsinfo.n_movie_wraps = moviewraps;
-    rnsinfo.ms_per_frame      =  frameln/moviestep;
-    rnsinfo.movie_play_dur    =  movie_play_dur;
-    filename = fullfile(newdir,sprintf('%s-rnsinfo.mat',fname));
-    save(filename,'rnsinfo','-mat');
+    mrnsinfo.size = size(rns); % pixels
+    mrnsinfo.x_pos    = x; % dva
+    mrnsinfo.y_pos    = y; % dva
+    mrnsinfo.x_ln     = xdegrees; % dva
+    mrnsinfo.y_ln     = ydegrees; % dva
+    mrnsinfo.n   = framen;
+    mrnsinfo.moviestep     = moviestep;
+    mrnsinfo.n_movie_wraps = moviewraps;
+    mrnsinfo.ms_per_frame      =  frameln/moviestep;
+    mrnsinfo.movie_play_dur    =  movie_play_dur;
+    filename = fullfile(newdir,sprintf('%s-mrnsinfo.mat',fname));
+    save(filename,'mrnsinfo','-mat');
 end
     
 % pass params timing info to timing file
