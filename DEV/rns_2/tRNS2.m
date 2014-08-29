@@ -40,6 +40,7 @@ if ~ontarget,
 end
 
 % hold fixation
+eventmarker(8);% fixation occurs, DEV: timing?
 ontarget = eyejoytrack('holdfix', fix, fix_radius, fix_dur);
 if ~ontarget,
     trialerror(3); % broke fixation

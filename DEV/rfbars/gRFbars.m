@@ -21,14 +21,14 @@ bg          = TrialRecord.ScreenInfo.BackgroundColor;
 xdegrees    = TrialRecord.ScreenInfo.Xdegrees/2 - 0.5;
 ydegrees    = TrialRecord.ScreenInfo.Ydegrees/2 - 0.5;
 
-% set bar params
-% orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case for all included oris
-% directions   = [1 -1  1 -1  1 -1   1  -1]; % 1 or -1 for forward and reverse
-% barcolors    = [1  1  1  1  1  1   1   1]; % 1 for white or 0 for black
+% set bar params, eaxh entry is a condition number
+orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case for all included oris
+directions   = [1 -1  1 -1  1 -1   1  -1]; % 1 or -1 for forward and reverse
+barcolors    = [1  1  1  1  1  1   1   1]; % 1 for white or 0 for black
 
-orientations = [0 90 45 135]; % zero is vertical, must have a case for all included oris
-directions   = [1 1 1 1]; % 1 or -1 for forward and reverse
-barcolors    = [1  1  1  1]; % 1 for white or 0 for black
+% orientations = [0 90 45 135]; % zero is vertical, must have a case for all included oris
+% directions   = [1 1 1 1]; % 1 or -1 for forward and reverse
+% barcolors    = [1  1  1  1]; % 1 for white or 0 for black
 
 
 ori = orientations(TrialRecord.CurrentCondition);
