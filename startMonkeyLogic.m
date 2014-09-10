@@ -41,6 +41,9 @@ if exist(Utils_folder,'dir') == 7
     addpath(Utils_folder);
 end
 
+% clear out runtime folder, yes do
+runtimefiles = sprintf('%s\\MonkeyLogic_%s\\runtime\\*.m',ML_folder,ML_ver);
+delete(runtimefiles);
 
 % force monkeylogic to reset runtime, task, and home directories
 if ispref('MonkeyLogic')
@@ -56,6 +59,8 @@ if ispref('MonkeyLogic')
         error('MonkeyLogic prefrences not set as supplied')
     end
 end
+
+
 
 % the main event!
 monkeylogic
