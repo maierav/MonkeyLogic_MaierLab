@@ -2910,8 +2910,10 @@ elseif ismember(gcbo, get(findobj('tag', 'monkeylogicmainmenu'), 'children')) ||
                     return
                 end
                 
-                avports = AdatorInfo(boardnum).AvailablePorts{subsysnum};
+                avports = AdaptorInfo(boardnum).AvailablePorts{subsysnum};
                 avlines = AdaptorInfo(boardnum).AvailableLines{subsysnum}{channelindx};
+                
+                % THERE ARE ISSUES HERE, MAC, SEPT 10 2014
                 
                 nlines = length(avlines);
                 if strcmp('CodesDigOut', iovar),
@@ -2935,13 +2937,19 @@ elseif ismember(gcbo, get(findobj('tag', 'monkeylogicmainmenu'), 'children')) ||
                         linestoadd = [linestoadd avlines(indx) + nlines * thisport]; %#ok<AGROW>
                     end
                     InputOutput.(iovar).Line = linestoadd;
+                
                 else
                     choose_dio_line(avlines);
-                indx = get(findobj('tag', 'availablechannels'), 'userdata');
-                if isempty(indx),
-                    return
-                end
-                InputOutput.(iovar).Line = avlines(indx);
+                    indx = get(findobj('tag', 'availablechannels'), 'userdata');
+                    if isempty(indx),
+                        return
+                    end
+                    % MAC, September 2014
+                    % ISSUE: indx is cell, throws error. RESOLVED: by adding the if statement below
+                    if iscell(indx)
+                        indx = cell2mat(indx);
+                    end
+                    InputOutput.(iovar).Line = avlines(indx);
                 end
                 
             elseif strcmp('Reward', iovar) && strcmpi(AdaptorInfo(boardnum).SubSystemsNames(subsysnum), 'digitalio'),
@@ -2961,8 +2969,10 @@ elseif ismember(gcbo, get(findobj('tag', 'monkeylogicmainmenu'), 'children')) ||
             set(findobj(gcf, 'tag', 'savebutton'), 'enable', 'on');
             set(findobj(gcf, 'tag', 'menubar_savebutton'), 'enable', 'on');
             mlmessage('I/O assigned.  Press "Check" to test validity...');
-            
-        case 'ioclear',
+          
+
+        
+         case 'ioclear',
             
             InputOutput = get(findobj(gcf, 'tag', 'ioframe'), 'userdata');
             ionum = get(findobj(gcf, 'tag', 'ioselect'), 'value');
