@@ -1,0 +1,11 @@
+Condition	Frequency	Block	Timing File		TaskObject#1		TaskObject#2		TaskObject#3		TaskObject#4		TaskObject#5		TaskObject#6		
+1		.5		1	v2tSerialPositions	pic(fixonly,0,0)	pic(pos-4,0,0)		pic(pos-3,0,0)		pic(pos-2,0,0)		pic(pos-1,0,0)		pic(pos0,0,0)		
+2		.5		1	v2tSerialPositions	pic(fixonly,0,0)	pic(pos4,0,0)		pic(pos3,0,0)		pic(pos2,0,0)		pic(pos1,0,0)		pic(pos0,0,0)				
+3		1		1	v2tSerialPositions	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(pos0,0,0)					
+4		.5		1	v2tSerialPositions	pic(fixonly,0,0)	pic(opppos-4,0,0)	pic(opppos-3,0,0)	pic(opppos-2,0,0)	pic(opppos-1,0,0)	pic(pos0,0,0)
+5		.5		1	v2tSerialPositions	pic(fixonly,0,0)	pic(opppos4,0,0)	pic(opppos3,0,0)	pic(opppos2,0,0)	pic(opppos1,0,0)	pic(pos0,0,0)
+6		1		1	v2tSerialPositions	pic(fixonly,0,0)	pic(pos4,0,0)		pic(pos3,0,0)		pic(pos2,0,0)		pic(pos1,0,0)		pic(fixonly,0,0)
+7		.5		1	v2tSerialPositions	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(pos-1,0,0)		pic(fixonly,0,0)
+8		.5		1	v2tSerialPositions	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(pos1,0,0)		pic(fixonly,0,0)
+9		1		1	v2tSerialPositions	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(fixonly,0,0)	pic(pos1,0,0)		pic(pos0,0,0)						
+				
