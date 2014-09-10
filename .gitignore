@@ -6,6 +6,7 @@ runtime/
 *.rns
 *.mrns
 *.srns
+initio.m
 
 # MATLAB #
 ##########
