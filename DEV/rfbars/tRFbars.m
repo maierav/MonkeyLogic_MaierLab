@@ -23,7 +23,7 @@ refreshrate = TrialRecord.ScreenInfo.RefreshRate;
 moreinfo    = TrialRecord.CurrentConditionStimulusInfo{moving_bar}.MoreInfo;
 xpath = moreinfo(1,:);
 ypath = moreinfo(2,:);
-bar_duration = length(xpath) / refreshrate * 1000; % bar play time is a function of # of frames, see gMovingBars
+bar_duration = length(xpath) / refreshrate * 1000; % bar play time is a function of # of frames, see below & see gMovingBars
 sucess = set_object_path(moving_bar, xpath, ypath);
 
 % control optional task features

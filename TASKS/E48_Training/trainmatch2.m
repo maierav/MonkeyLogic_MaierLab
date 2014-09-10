@@ -10,7 +10,7 @@
 % instance, displaying or extinguishing an object, initiating a movement, etc).
 
 % set editable vars
-editable({'fix_radius','fix_on_idle','wait_for_fix','wait_for_sac','fix_dur_LL','fix_dur_UL','pumps','reward_schedule','iti_dur_LL','iti_dur_UL','punish_dur'});
+editable({'fix_radius','soft_fix_idle','prehold_fix_idle','wait_for_fix','wait_for_sac','fix_dur_LL','fix_dur_UL','pumps','reward_schedule','iti_dur_LL','iti_dur_UL','punish_dur'});
 
 % set number of juice pumps
 pumps = 1;
@@ -29,9 +29,10 @@ fix_radius = 5;
 
 % define time intervals (in ms):
 % fixed intervals:
-fix_on_idle = 0;
+soft_fix_idle = 0;
+prehold_fix_idle = 200;
 wait_for_fix = 1000;
-wait_for_sac = 500;
+wait_for_sac = 250;
 punish_dur = 2000;
 % random intervals:
 fix_dur_LL = 400;
@@ -48,7 +49,7 @@ set_iti(iti_dur);
 
 % fixation to first location:
 toggleobject(acquirefix_point);
-idle(fix_on_idle); % small idle before aquirefix initiates to emphasize fix point diffrences, also give monkey time for EM 
+idle(soft_fix_idle); % small idle before aquirefix initiates to emphasize fix point diffrences, also give monkey time for EM 
 ontarget = eyejoytrack('acquirefix', acquirefix_point, fix_radius, wait_for_fix);
 if ~ontarget,
     trialerror(4); % no fixation
@@ -58,7 +59,7 @@ if ~ontarget,
 end
 
 % hold fixation at first location
-idle(25); % short idle before holdfix initiates
+idle(prehold_fix_idle); % short idle before holdfix initiates
 toggleobject([acquirefix_point holdfix_point]);
 ontarget = eyejoytrack('holdfix', holdfix_point, fix_radius, fix_dur);
 if ~ontarget,
@@ -71,7 +72,6 @@ end
 
 % turn off dot at first location, and on at second location
 toggleobject([holdfix_point acquiresac_point distractor_point]);
-idle(fix_on_idle); % small idle before aquirefix initiates to emphasize fix point diffrences, also give monkey time for EM 
 ontarget = eyejoytrack('acquirefix', [acquiresac_point distractor_point], fix_radius, wait_for_sac);
 if ~ontarget,
     trialerror(4); % no fixation
@@ -88,7 +88,7 @@ elseif ontarget == 2,
 end
 
 % hold fixation at second location
-idle(25); % short idle before holdfix initiates
+idle(prehold_fix_idle); % short idle before holdfix initiates
 toggleobject([acquiresac_point holdsac_point]);
 ontarget = eyejoytrack('holdfix', holdsac_point, fix_radius, fix_dur);
 if ~ontarget,
@@ -99,11 +99,12 @@ if ~ontarget,
     return
 end
 
+%turn off fixation at second location
+toggleobject([holdsac_point distractor_point],'status','off');
+idle(50)
 
 % correct trial reward
 trialerror(0); % correct
 n_pumps = uRewardSchedule(reward_schedule,pumps,TrialRecord);
 goodmonkey(50, 'NumReward', n_pumps, 'PauseTime', 100);
 
-%turn off fixation at second location
-toggleobject([holdsac_point distractor_point],'status','off');

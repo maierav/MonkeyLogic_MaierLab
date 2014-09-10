@@ -37,8 +37,8 @@ switch type
                     n = length(noerrors) - find(diff(noerrors),1,'last');
                 end
                 % cap at 10 extra pumps of juice
-                if n > 10
-                    n = 10;
+                if n > 5
+                    n = 5;
                 end
                 
                 % get n_juice for 1st error-free trial, 

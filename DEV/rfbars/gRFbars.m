@@ -123,4 +123,28 @@ end
 x = moreinfo(1,1);
 y = moreinfo(2,1);
 
- 
+% save info
+rfbarsinfo.condition = TrialRecord.CurrentCondition;
+rfbarsinfo.image     = image;
+rfbarsinfo.x_pos     = x; % dva
+rfbarsinfo.y_pos     = y; % dva
+rfbarsinfo.xpath     = xpath;
+rfbarsinfo.ypath     = ypath; % dva
+rfbarsinfo.startpos  = startpos;
+rfbarsinfo.targetpos = targetpos;
+rfbarsinfo.refreshrate = TrialRecord.ScreenInfo.RefreshRate;
+rfbarsinfo.orientation = ori;
+rfbarsinfo.direction = dir;
+rfbarsinfo.color = col;
+rfbarsinfo.velocity = velocity;  %dva/sec
+rfbarsinfo.width = width; %dva, height set below
+
+[fpath fname] = fileparts(TrialRecord.BhvFileName);
+newdir = [fpath filesep 'rfbars'];
+if exist(newdir,'dir') ~= 7
+    mkdir(newdir)
+end
+
+filename = fullfile(newdir,sprintf('%s_rfbarsinfo-cond%0.2u.mat',fname,TrialRecord.CurrentCondition));
+save(filename,'rfbarsinfo','-mat');
+
