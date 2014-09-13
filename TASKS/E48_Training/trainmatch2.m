@@ -35,8 +35,8 @@ wait_for_fix = 1000;
 wait_for_sac = 250;
 punish_dur = 2000;
 % random intervals:
-fix_dur_LL = 400;
-fix_dur_UL = 600;
+fix_dur_LL = 800;
+fix_dur_UL = 1000;
 iti_dur_LL = 1000;
 iti_dur_UL = 1200;
 fix_dur = randi([fix_dur_LL fix_dur_UL]);
