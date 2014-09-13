@@ -26,11 +26,6 @@ orientations = [0  0 90 90 45 45 135 135]; % zero is vertical, must have a case 
 directions   = [1 -1  1 -1  1 -1   1  -1]; % 1 or -1 for forward and reverse
 barcolors    = [1  1  1  1  1  1   1   1]; % 1 for white or 0 for black
 
-% orientations = [0 90 45 135]; % zero is vertical, must have a case for all included oris
-% directions   = [1 1 1 1]; % 1 or -1 for forward and reverse
-% barcolors    = [1  1  1  1]; % 1 for white or 0 for black
-
-
 ori = orientations(TrialRecord.CurrentCondition);
 dir = directions(TrialRecord.CurrentCondition);
 col = barcolors(TrialRecord.CurrentCondition);
@@ -124,22 +119,23 @@ x = moreinfo(1,1);
 y = moreinfo(2,1);
 
 % save info
+clear rfbarsinfo
 rfbarsinfo.condition = TrialRecord.CurrentCondition;
+rfbarsinfo.orientation = ori;
+rfbarsinfo.direction = dir;
+rfbarsinfo.barcolor = col;
+rfbarsinfo.velocity = velocity;
+rfbarsinfo.width    = width;
+rfbarsinfo.startpos  = [xpath(1) ypath(1)];
+rfbarsinfo.targetpos = [xpath(end) ypath(end)];
+rfbarsinfo.xpath     = xpath;
+rfbarsinfo.ypath     = ypath; % dva
+rfbarsinfo.refreshrate = TrialRecord.ScreenInfo.RefreshRate;
 rfbarsinfo.image     = image;
 rfbarsinfo.x_pos     = x; % dva
 rfbarsinfo.y_pos     = y; % dva
-rfbarsinfo.xpath     = xpath;
-rfbarsinfo.ypath     = ypath; % dva
-rfbarsinfo.startpos  = startpos;
-rfbarsinfo.targetpos = targetpos;
-rfbarsinfo.refreshrate = TrialRecord.ScreenInfo.RefreshRate;
-rfbarsinfo.orientation = ori;
-rfbarsinfo.direction = dir;
-rfbarsinfo.color = col;
-rfbarsinfo.velocity = velocity;  %dva/sec
-rfbarsinfo.width = width; %dva, height set below
 
-[fpath fname] = fileparts(TrialRecord.BhvFileName);
+[fpath, fname] = fileparts(TrialRecord.BhvFileName);
 newdir = [fpath filesep 'rfbars'];
 if exist(newdir,'dir') ~= 7
     mkdir(newdir)
