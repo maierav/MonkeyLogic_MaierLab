@@ -1,2 +1,0 @@
-Condition	Frequency	Block	Timing File	TaskObject#1			TaskObject#2			TaskObject#3
-1		1		1	trainfixation2	crc(0.2,[0 0 0], 0,  0,  0)	crc(0.2,[0 0 0], 1,  0,  0)	sqr(25,[0 0 0], 1,  0,  0)

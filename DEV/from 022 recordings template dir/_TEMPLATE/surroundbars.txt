@@ -1,8 +1,0 @@
-Condition	Frequency	Block	Timing File		TaskObject#1		TaskObject#2		TaskObject#3				
-1		1		1	tSurroundBars	pic(fixonly,0,0)	pic(rfonly,0,0)		pic(rfonly,0,0)			
-2		1		1	tSurroundBars	pic(fixonly,0,0)	pic(sameangle,0,0)	pic(sameangle,0,0)						
-3		1		1	tSurroundBars	pic(fixonly,0,0)	pic(oppangle,0,0)	pic(oppangle,0,0)					
-4		1		1	tSurroundBars	pic(fixonly,0,0)	pic(samealone,0,0)	pic(sameangle,0,0)							
-5		1		1	tSurroundBars	pic(fixonly,0,0)	pic(oppalone,0,0)	pic(oppangle,0,0)				
-							
-				

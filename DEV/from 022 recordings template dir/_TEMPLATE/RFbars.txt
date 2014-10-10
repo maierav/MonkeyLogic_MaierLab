@@ -1,9 +1,0 @@
-Condition	Frequency	Block	Timing File	TaskObject#1		TaskObject#2
-1		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-2		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-3		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-4		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-5		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-6		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-7		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)
-8		1		1 	tRFbars		crc(0.2,[0 0 0],1,0,0)	gen(gRFbars)

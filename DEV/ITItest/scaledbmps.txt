@@ -1,7 +1,0 @@
-Condition	Frequency	Block	Timing File	TaskObject#1
-1		1		1 	showstim	pic(A,0,0)  
-2		1		1 	showstim	pic(B,0,0)
-3		1		1 	showstim	pic(C,0,0)
-4		1		1 	showstim	pic(D,0,0)
-5		1		1 	showstim	pic(E,0,0)
-6		1		1 	showstim	pic(F,0,0)

@@ -1,2 +1,0 @@
-Condition	Frequency	Block	Timing File	TaskObject#1
-1		1		1 	showmovie	gen(gMovieRNS)  
