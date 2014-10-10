@@ -3,10 +3,6 @@
 *.bhv
 *_cfg.mat
 runtime/
-*.rns
-*.mrns
-*.srns
-initio.m
 
 # MATLAB #
 ##########
